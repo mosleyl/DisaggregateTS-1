@@ -2,18 +2,24 @@ Package: DisaggregateTS
 Title: High-dimensional temporal disaggregation
 Version: 1.0
 Authors@R: 
-    person(given = "Luke",
+     c(person(given = "Luke",
            family = "Mosley",
-           role = c("aut", "cre"),
-           email = "l.mosley@lancaster.ac.uk")
-Description: This package contains functions for: 1- generating (potentially high-dimensional) high-frequency and low-frequency series for simulation studies in temporal disaggregation; 2- a toolkit utilizing temporal disaggregation and benchmarking techniques with a low-dimensional  matrix of indicator series previously proposed in the literature; and 3- novel techniques for disaggregating low-frequency series in the presence of high-dimensional indicator matrices..
-License: GPL (>= 3)
-Imports: Rdpack
+           role = c("aut","cre"),
+           email = "l.mosley@lancaster.ac.uk"),
+      person(given = "Kaveh",
+           family = "S. Nobari",
+           role = c("aut"),
+           email = "k.salehzadehnobari@lancs.ac.uk",
+           comment = c(ORCID = "0000-0002-4053-0781")))
+Description: This package contains functions for: 1- generating (potentially high-dimensional) high-frequency and low-frequency series for simulation studies in temporal disaggregation; 2- a toolkit utilizing temporal disaggregation and benchmarking techniques with a low-dimensional  matrix of indicator series previously proposed in the literature; and 3- novel techniques for disaggregating low-frequency series in the presence of high-dimensional indicator matrices.
+Imports: Rdpack, zoo, lars, Matrix
 RdMacros: Rdpack
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-12-13 23:27:55 UTC; salehzad
-Author: Luke Mosley [aut, cre]
+Packaged: 2021-12-14 00:55:28 UTC; salehzad
+Author: Luke Mosley [aut, cre],
+  Kaveh S. Nobari [aut] (<https://orcid.org/0000-0002-4053-0781>)
 Maintainer: Luke Mosley <l.mosley@lancaster.ac.uk>
