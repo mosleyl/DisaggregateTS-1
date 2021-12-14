@@ -20,7 +20,9 @@
 #' @keywords DGP sparse high-frequency low-frequency 
 #' @import zoo
 #' @examples
-#' TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0.5, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' data = TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' X = data$X_Gen
+#' Y = data$Y_Gen
 #' @references
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
