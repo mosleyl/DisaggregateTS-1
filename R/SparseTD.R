@@ -7,7 +7,7 @@
 #' 
 #' @param Y the low-frequency response vector 
 #' @param X the high-frequency indicator matrix 
-#' @param penalty nominates the choice of regularisation (LASSO or Adaptive LASSO)
+#' @param penalty nominates the choice of regularisation ('lasso' or 'adalasso')
 #' @param aggMat choice of the aggregation matrix 
 #' @keywords Sparse Temporal Disaggregation Lasso Time Series Disaggregation
 #' @import lars 
@@ -84,10 +84,11 @@ SparseTD <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y
       
       for(rho in 1:length(grid)) {
         
+        
         # Generate AR auto-covariance matrix 
-        sqnc <- rho^seq(0, n, by = 1)
+        sqnc <- grid[rho]^seq(0, n, by = 1)
         Omega <- toeplitz(sqnc[1: n])
-        V <- (1/(1-rho^2)) * Omega
+        V <- (1/(1-grid[rho]^2)) * Omega
         
         # Aggregate V 
         V_l <- C %*% tcrossprod(V, C)
@@ -204,4 +205,3 @@ SparseTD <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y
   return(output)
   
 }
-
