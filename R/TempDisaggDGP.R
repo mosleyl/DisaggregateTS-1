@@ -56,7 +56,7 @@ TempDisaggDGP <- function(n_l, m, p = 1, beta = 0.5, sparsity = 1, method = 'Den
 
 			}else{
 
-				s <- round((1-sparsity)*p)					
+				s <- round(sparsity*p)					
 
 				toReplace <- sample(p, size = s)
 
