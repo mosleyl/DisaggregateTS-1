@@ -1,5 +1,5 @@
 Package: DisaggregateTS
-Title: High-dimensional temporal disaggregation
+Title: High-Dimensional Temporal Disaggregation
 Version: 1.0
 Authors@R: 
      c(person(given = "Luke",
@@ -11,7 +11,7 @@ Authors@R:
            role = c("aut"),
            email = "k.salehzadehnobari@lancs.ac.uk",
            comment = c(ORCID = "0000-0002-4053-0781")))
-Description: This package contains functions for: 1- generating (potentially high-dimensional) high-frequency and low-frequency series for simulation studies in temporal disaggregation; 2- a toolkit utilizing temporal disaggregation and benchmarking techniques with a low-dimensional  matrix of indicator series previously proposed in the literature; and 3- novel techniques for disaggregating low-frequency series in the presence of high-dimensional indicator matrices.
+Description: DisaggregateTS contains functions for: 1- generating (potentially high-dimensional) high-frequency and low-frequency series for simulation studies in temporal disaggregation; 2- a toolkit utilizing temporal disaggregation and benchmarking techniques with a low-dimensional  matrix of indicator series previously proposed in the literature; and 3- novel techniques for disaggregating low-frequency series in the presence of high-dimensional indicator matrices.
 Imports: Rdpack, zoo, lars, Matrix
 RdMacros: Rdpack
 License: GPL (>= 3)
