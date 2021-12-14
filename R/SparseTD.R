@@ -12,7 +12,11 @@
 #' @keywords Sparse Temporal Disaggregation Lasso Time Series Disaggregation
 #' @import lars 
 #' @examples 
-#' SparseTD(Y = Y_Gen, X = X_Gen, penalty = 'lasso', aggMat = 'sum')
+#' data = TempDisaggDGP(n_l = 10, m = 4, p = 4, beta = 0.5, sparsity = 0.5, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' X = data$X_Gen
+#' Y = data$Y_Gen
+#' fit_spTD = SparseTD(Y = Y, X = X, penalty = 'lasso', aggMat = 'sum')
+#' y_hat = fit_spTD$y
 #' @references 
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
