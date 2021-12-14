@@ -7,10 +7,11 @@
 #' 
 #' @param n_l 		size of the low frequency series
 #' @param m   		the integer multiple for generating the high-frequency series
+#' @param p       the number of high frequency indicator series to include 
 #' @param beta  	the positive and negative beta elements for the coefficient vector
 #' @param sparsity	sparsity percentage of the coefficient vector
 #' @param method 	nominates the choice of the DGP
-#' @param annualMat choice of the disaggregation matix
+#' @param aggMat choice of the aggregation matrix
 #' @param rho		the autocorrelation coefficient 
 #' @param mean_X 	mean of the design matrix
 #' @param sd_X 		standard deviation of the design matrix
@@ -19,13 +20,12 @@
 #' @keywords DGP sparse high-frequency low-frequency 
 #' @import zoo
 #' @examples
-#' TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', 
-#' + annualMat = 'sum', mean_X = 0.5, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0.5, sd_X = 1, sd_e = 1 , rho = 0.5)
 #' @references
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
 
-TempDisaggDGP <- function(n_l, m, p = 1, beta = 0.5, sparsity = 1, method = 'Denton-Cholette', annualMat = 'sum', rho = 0, mean_X = 0.5, sd_X = 1, sd_e = 1, simul = FALSE){
+TempDisaggDGP <- function(n_l, m, p = 1, beta = 0.5, sparsity = 1, method = 'Denton-Cholette', aggMat = 'sum', rho = 0, mean_X = 0.5, sd_X = 1, sd_e = 1, simul = FALSE){
 
 
 	if(rho >= 1 || rho <= -1){
@@ -172,26 +172,26 @@ TempDisaggDGP <- function(n_l, m, p = 1, beta = 0.5, sparsity = 1, method = 'Den
 		}
 
 
-		if(annualMat == 'sum'){
+		if(aggMat == 'sum'){
 
 			# Every m-th observations 'y' will add up to generate 'Y'.
 
 			Y <- rollapply(y, m, 'sum', by = m)
 
-		}else if(annualMat == 'avg'){
+		}else if(aggMat == 'avg'){
 
 			# Every m-th observations 'y' will be averaged to generate 'Y'.
 
 			Y <- rollapply(y, m, 'mean', by = m)
 
-		}else if(annualMat == 'first'){
+		}else if(aggMat == 'first'){
 
 			# The first value of every m-th observations 'y' will generate 'Y'.	
 
 			Y <- matrix(data = y[seq(from = 1, to = nrow(y), m)], ncol = 1) 
 
 
-		}else if(annualMat == 'last'){
+		}else if(aggMat == 'last'){
 
 			# The last value of every m-th observations 'y' will generate 'Y'.	
 
@@ -204,7 +204,8 @@ TempDisaggDGP <- function(n_l, m, p = 1, beta = 0.5, sparsity = 1, method = 'Den
 
 		data_list <- list(y, Y, X, beta, e)
 		names(data_list) <- c("y_Gen", "Y_Gen", "X_Gen", "Beta_Gen", "e_Gen")
-		TempDisaggSim <<- data_list
+	
+		return(data_list)
 
 	}
 }
