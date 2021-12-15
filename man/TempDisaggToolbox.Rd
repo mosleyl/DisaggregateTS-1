@@ -8,27 +8,31 @@ TempDisaggToolbox(
   Y,
   X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y)),
   method = "Denton-Cholette",
-  annualMat = "sum",
+  aggMat = "sum",
   Denton = "first"
 )
 }
 \arguments{
-\item{Y}{the low-frequency response vector}
+\item{Y}{The low-frequency response vector.}
 
-\item{X}{the high-frequency indicator matrix}
+\item{X}{The high-frequency indicator matrix.}
 
-\item{method}{nominates the choice of the temporal disaggregation method}
+\item{method}{Disaggregation using 'Denton', 'Denton-Cholette', 'Chow-Lin', 'Fernandez', 'Litterman'.}
 
-\item{annualMat}{choice of the disaggregation matrix}
+\item{aggMat}{Aggregation matrix according to 'first', 'sum', 'average', 'last'.}
 
-\item{Denton}{absolute, first, second and proportional difference Sigma for the Denton method}
+\item{Denton}{The 'absolute', 'first', 'second' and 'proportional' difference Sigma for the Denton method.}
 }
 \description{
 This function contains the movement preservation and regression-based low-dimensional temporal disaggregation methods proposed by \insertCite{denton1971adjustment;textual}{DisaggregateTS}, \insertCite{dagum2006benchmarking;textual}{DisaggregateTS}
 \insertCite{chow1971best;textual}{DisaggregateTS}, \insertCite{fernandez1981methodological;textual}{DisaggregateTS} and \insertCite{litterman1983random;textual}{DisaggregateTS}.
 }
 \examples{
-TempDisaggToolbox(Y = Y_Gen, X = X_Gen, method = 'Chow-Lin', annualMat = 'sum')
+data = TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+X = data$X_Gen
+Y = data$Y_Gen
+fit_chowlin = TempDisaggToolbox(Y = Y, X = X, method = 'Chow-Lin', aggMat = 'sum')
+y_hat = fit_chowlin$y
 }
 \references{
 \insertAllCited{}

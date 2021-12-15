@@ -3,12 +3,14 @@
 #' This function reduces the bias in LASSO estimates by re-fitting the
 #' support back into GLS. 
 #' 
-#' @param X aggregated indicator series matrix that has been GLS rotated 
-#' @param Y low-frequency response vector that has been GLS rotated 
-#' @param beta estimate of beta from LARS algorithm for a certain lambda
+#' @param X     Aggregated indicator series matrix that has been GLS rotated. 
+#' @param Y     Low-frequency response vector that has been GLS rotated. 
+#' @param beta  Estimate of beta from LARS algorithm for a certain lambda.
+#' @keywords internal 
+#' @importFrom Rdpack reprompt
+#' @importFrom stats lm rbinom rnorm
 
-
-refit <- function(X,Y,beta) {
+refit <- function(X, Y, beta) {
   
   p = ncol(X)
   active <- which(beta != 0 )

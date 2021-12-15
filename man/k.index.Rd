@@ -6,12 +6,8 @@
 \usage{
 k.index(matrix, n_l)
 }
-\arguments{
-\item{matrix}{matrix of beta estimates from LARS algorithm}
-
-\item{n_l}{number of low-frequency observations}
-}
 \description{
 This function prevents the support of beta becoming greater than n_l/2.
 This heuristic approach prevents erratic values of BIC when in high-dimensions.
 }
+\keyword{internal}

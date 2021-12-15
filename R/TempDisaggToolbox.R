@@ -3,21 +3,26 @@
 #' This function contains the movement preservation and regression-based low-dimensional temporal disaggregation methods proposed by \insertCite{denton1971adjustment;textual}{DisaggregateTS}, \insertCite{dagum2006benchmarking;textual}{DisaggregateTS}
 #' \insertCite{chow1971best;textual}{DisaggregateTS}, \insertCite{fernandez1981methodological;textual}{DisaggregateTS} and \insertCite{litterman1983random;textual}{DisaggregateTS}.
 #' 
-#' @param Y  		the low-frequency response vector
-#' @param X  		the high-frequency indicator matrix
-#' @param method 	nominates the choice of the temporal disaggregation method
-#' @param annualMat choice of the disaggregation matrix
-#' @param Denton	absolute, first, second and proportional difference Sigma for the Denton method 
+#' @param Y  		The low-frequency response vector.
+#' @param X  		The high-frequency indicator matrix.
+#' @param method 	Disaggregation using 'Denton', 'Denton-Cholette', 'Chow-Lin', 'Fernandez', 'Litterman'.
+#' @param aggMat 	Aggregation matrix according to 'first', 'sum', 'average', 'last'.
+#' @param Denton	The 'absolute', 'first', 'second' and 'proportional' difference Sigma for the Denton method. 
 #' @keywords Denton Denton-Cholette Chow-Lin Fernandez Litterman temporal-disaggregation
 #' @import Matrix
+#' @export
 #' @examples
-#' TempDisaggToolbox(Y = Y_Gen, X = X_Gen, method = 'Chow-Lin', annualMat = 'sum')
+#' data = TempDisaggDGP(n_l = 10, m = 4, p = 4, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' X = data$X_Gen
+#' Y = data$Y_Gen
+#' fit_chowlin = TempDisaggToolbox(Y = Y, X = X, method = 'Chow-Lin', aggMat = 'sum')
+#' y_hat = fit_chowlin$y
 #' @references
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt	
+#' @importFrom stats lm rbinom rnorm
 
-
-TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y)), method = 'Denton-Cholette', annualMat = 'sum', Denton = 'first'){
+TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y)), method = 'Denton-Cholette', aggMat = 'sum', Denton = 'first'){
 
 
 	if(is.matrix(X) == FALSE || is.matrix(Y) == FALSE){
@@ -45,19 +50,19 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 			
 			# Generate the disaggregation matrix C
 
-			if(annualMat == 'sum'){
+			if(aggMat == 'sum'){
 
 				C <- kronecker(diag(n_l), matrix(data = 1, nrow = 1, ncol = m))
 
-			}else if(annualMat == 'avg'){
+			}else if(aggMat == 'avg'){
 
 				C <- kronecker(diag(n_l), matrix(data = n_l/n, nrow = 1, ncol = m))
 
-			}else if(annualMat == 'first'){
+			}else if(aggMat == 'first'){
 
 				C <- kronecker(diag(n_l), matrix(data = c(1, rep(0, times = m-1)), nrow = 1, ncol = m))
 
-			}else if(annualMat == 'last'){
+			}else if(aggMat == 'last'){
 
 				C <- kronecker(diag(n_l), matrix(data = c(rep(0, times = m-1), 1), nrow = 1, ncol = m))
 
@@ -72,7 +77,7 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 				# First difference matrix
 
 				diags <- list(rep(1, times = n), rep(-1, times = n-1))
-				Delta_t <-  bandSparse(n, k = 0:1, diag = diags, symm = FALSE)
+				Delta_t <-  bandSparse(n, k = 0:1, diagonals = diags, symmetric = FALSE)
 				Delta <- t(Delta_t)
 
 				if(method == 'Denton'){
@@ -227,7 +232,7 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 				# First difference matrix
 
 				diags <- list(rep(1, times = n), rep(-1, times = n-1))
-				Delta_t <- bandSparse(n, k = 0:1, diag = diags, symm = FALSE)
+				Delta_t <- bandSparse(n, k = 0:1, diagonals = diags, symmetric = FALSE)
 				Delta <- t(Delta_t) 
 
 				if(method == 'Fernandez'){
@@ -276,7 +281,7 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 					while(rho < 1){
 
 						diags <- list(rep(1, times = n), rep(-rho, times = n-1))
-						H_r_t <-  bandSparse(n, k = 0:1, diag = diags, symm = FALSE)
+						H_r_t <-  bandSparse(n, k = 0:1, diagonals = diags, symmetric = FALSE)
 						H_r <- t(H_r_t) 
 
 						Sigma <- solve(Delta_t %*% H_r_t %*% H_r %*% Delta)
@@ -318,7 +323,7 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 					rho_opt <- (which.max(LF)-1) * 0.01
 
 					diags_opt <- list(rep(1, times = n), rep(-rho_opt, times = n-1))
-					H_r_t_opt <-  bandSparse(n, k = 0:1, diag = diags_opt, symm = FALSE)
+					H_r_t_opt <-  bandSparse(n, k = 0:1, diagonals = diags_opt, symmetric = FALSE)
 					H_r_opt <- t(H_r_t_opt) 
 
 					Sigma_opt <- solve(Delta_t %*% H_r_t_opt %*% H_r_opt %*% Delta)
@@ -362,5 +367,6 @@ TempDisaggToolbox <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow
 
 	data_list <- list(y, betaHat_opt, rho_opt, u_l)
 	names(data_list) <- c("y_Gen", "betaHat_Opt", "rho_Opt","u_Gen")
-	TempDisaggGen <<- data_list
+	
+	return(data_list)
 }

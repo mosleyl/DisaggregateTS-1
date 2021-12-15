@@ -12,13 +12,13 @@ SparseTD(
 )
 }
 \arguments{
-\item{Y}{the low-frequency response vector}
+\item{Y}{The low-frequency response vector.}
 
-\item{X}{the high-frequency indicator matrix}
+\item{X}{The high-frequency indicator matrix.}
 
-\item{penalty}{nominates the choice of regularisation (LASSO or Adaptive LASSO)}
+\item{penalty}{Nominates the choice of regularisation ('lasso' or 'adalasso').}
 
-\item{aggMat}{choice of the aggregation matrix}
+\item{aggMat}{Aggregation matrix according to 'first', 'sum', 'average', 'last'.}
 }
 \description{
 This function provides the Sparse Temporal Disaggregation (spTD) methods proposed by \insertCite{mosley2021sparse;textual}{DisaggregateTS}
@@ -27,7 +27,11 @@ performed by a LASSO penalty \insertCite{tibshirani1996regression;textual}{Disag
 \insertCite{zou2006adaptive;textual}{DisaggregateTS}.
 }
 \examples{
-SparseTD(Y = Y_Gen, X = X_Gen, penalty = 'lasso', aggMat = 'sum')
+data = TempDisaggDGP(n_l = 10, m = 4, p = 4, beta = 0.5, sparsity = 0.5, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+X = data$X_Gen
+Y = data$Y_Gen
+fit_spTD = SparseTD(Y = Y, X = X, penalty = 'lasso', aggMat = 'sum')
+y_hat = fit_spTD$y
 }
 \references{
 \insertAllCited{}

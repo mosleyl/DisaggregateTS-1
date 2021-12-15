@@ -7,13 +7,14 @@
 refit(X, Y, beta)
 }
 \arguments{
-\item{X}{aggregated indicator series matrix that has been GLS rotated}
+\item{X}{Aggregated indicator series matrix that has been GLS rotated.}
 
-\item{Y}{low-frequency response vector that has been GLS rotated}
+\item{Y}{Low-frequency response vector that has been GLS rotated.}
 
-\item{beta}{estimate of beta from LARS algorithm for a certain lambda}
+\item{beta}{Estimate of beta from LARS algorithm for a certain lambda.}
 }
 \description{
 This function reduces the bias in LASSO estimates by re-fitting the
 support back into GLS.
 }
+\keyword{internal}

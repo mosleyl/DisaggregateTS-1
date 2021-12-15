@@ -3,8 +3,11 @@
 #' This function prevents the support of beta becoming greater than n_l/2.
 #' This heuristic approach prevents erratic values of BIC when in high-dimensions. 
 #' 
-#' @param matrix matrix of beta estimates from LARS algorithm
-#' @param n_l number of low-frequency observations
+#' @param matrix
+#' @param n_l
+#' @keywords internal 
+#' @importFrom Rdpack reprompt
+#' @importFrom stats lm rbinom rnorm
 
 k.index <- function(matrix, n_l) {
   

@@ -7,13 +7,13 @@
 hdBIC(X, Y, covariance, beta)
 }
 \arguments{
-\item{X}{aggregated indicator series matrix that has been GLS rotated}
+\item{X}{Aggregated indicator series matrix that has been GLS rotated.}
 
-\item{Y}{low-frequency response vector that has been GLS rotated}
+\item{Y}{Low-frequency response vector that has been GLS rotated.}
 
-\item{covariance}{aggregated AR covariance nmatrix}
+\item{covariance}{Aggregated AR covariance matrix.}
 
-\item{beta}{estimate of beta from LARS algorithm for a certain lambda}
+\item{beta}{Estimate of beta from LARS algorithm for a certain lambda.}
 }
 \description{
 This function calculates the BIC score that has been shown to work better than ordinary BIC in
@@ -22,5 +22,4 @@ high-dimensional scenarios. It uses the variance estimator given in \insertCite{
 \references{
 \insertAllCited{}
 }
-\keyword{BIC}
-\keyword{high-dimensions}
+\keyword{internal}

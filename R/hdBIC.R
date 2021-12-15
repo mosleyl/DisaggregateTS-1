@@ -3,16 +3,17 @@
 #' This function calculates the BIC score that has been shown to work better than ordinary BIC in 
 #' high-dimensional scenarios. It uses the variance estimator given in \insertCite{yu2019estimating;textual}{DisaggregateTS}.
 #' 
-#' @param X aggregated indicator series matrix that has been GLS rotated 
-#' @param Y low-frequency response vector that has been GLS rotated 
-#' @param covariance aggregated AR covariance nmatrix 
-#' @param beta estimate of beta from LARS algorithm for a certain lambda
-#' @keywords BIC high-dimensions 
+#' @param X           Aggregated indicator series matrix that has been GLS rotated. 
+#' @param Y           Low-frequency response vector that has been GLS rotated. 
+#' @param covariance  Aggregated AR covariance matrix. 
+#' @param beta        Estimate of beta from LARS algorithm for a certain lambda.
+#' @keywords internal 
 #' @references 
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
+#' @importFrom stats lm rbinom rnorm
 
-hdBIC <- function(X,Y,covariance,beta) {
+hdBIC <- function(X, Y, covariance, beta) {
   
   n_l <- length(Y)
   support <- sum(beta != 0)

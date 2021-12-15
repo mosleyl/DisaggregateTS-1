@@ -5,17 +5,23 @@
 #' performed by a LASSO penalty \insertCite{tibshirani1996regression;textual}{DisaggregateTS} or an Adaptive LASSO penalty 
 #' \insertCite{zou2006adaptive;textual}{DisaggregateTS}. 
 #' 
-#' @param Y the low-frequency response vector 
-#' @param X the high-frequency indicator matrix 
-#' @param penalty nominates the choice of regularisation (LASSO or Adaptive LASSO)
-#' @param aggMat choice of the aggregation matrix 
+#' @param Y       The low-frequency response vector. 
+#' @param X       The high-frequency indicator matrix. 
+#' @param penalty Nominates the choice of regularisation ('lasso' or 'adalasso').
+#' @param aggMat  Aggregation matrix according to 'first', 'sum', 'average', 'last'. 
 #' @keywords Sparse Temporal Disaggregation Lasso Time Series Disaggregation
 #' @import lars 
+#' @export
 #' @examples 
-#' SparseTD(Y = Y_Gen, X = X_Gen, penalty = 'lasso', aggMat = 'sum')
+#' data = TempDisaggDGP(n_l = 10, m = 4, p = 4, beta = 0.5, sparsity = 0.5, method = 'Chow-Lin', aggMat = 'sum', mean_X = 0, sd_X = 1, sd_e = 1 , rho = 0.5)
+#' X = data$X_Gen
+#' Y = data$Y_Gen
+#' fit_spTD = SparseTD(Y = Y, X = X, penalty = 'lasso', aggMat = 'sum')
+#' y_hat = fit_spTD$y
 #' @references 
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
+#' @importFrom stats lm rbinom rnorm
 
 ### SparseTD main function --------------------
 
@@ -80,10 +86,11 @@ SparseTD <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y
       
       for(rho in 1:length(grid)) {
         
+        
         # Generate AR auto-covariance matrix 
-        sqnc <- rho^seq(0, n, by = 1)
+        sqnc <- grid[rho]^seq(0, n, by = 1)
         Omega <- toeplitz(sqnc[1: n])
-        V <- (1/(1-rho^2)) * Omega
+        V <- (1/(1-grid[rho]^2)) * Omega
         
         # Aggregate V 
         V_l <- C %*% tcrossprod(V, C)
@@ -200,4 +207,3 @@ SparseTD <- function(Y, X = matrix(data = rep(1, times = nrow(Y)), nrow = nrow(Y
   return(output)
   
 }
-
