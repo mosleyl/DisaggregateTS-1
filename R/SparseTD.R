@@ -20,6 +20,8 @@
 #' @references 
 #' \insertAllCited{}
 #' @importFrom Rdpack reprompt
+#' 
+#' # edit 
 
 ### SparseTD main function --------------------
 
